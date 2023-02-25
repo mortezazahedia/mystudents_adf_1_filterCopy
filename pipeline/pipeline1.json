@@ -5,11 +5,18 @@
 			{
 				"name": "ForEach1",
 				"type": "ForEach",
-				"dependsOn": [],
+				"dependsOn": [
+					{
+						"activity": "Filter1",
+						"dependencyConditions": [
+							"Skipped"
+						]
+					}
+				],
 				"userProperties": [],
 				"typeProperties": {
 					"items": {
-						"value": "@pipeline().parameters.outputfolders",
+						"value": "@activity('Filter1').output.Value",
 						"type": "Expression"
 					},
 					"isSequential": true,
@@ -95,6 +102,22 @@
 							]
 						}
 					]
+				}
+			},
+			{
+				"name": "Filter1",
+				"type": "Filter",
+				"dependsOn": [],
+				"userProperties": [],
+				"typeProperties": {
+					"items": {
+						"value": "@pipeline().parameters.outputfolders",
+						"type": "Expression"
+					},
+					"condition": {
+						"value": "@startswith(item(),'out')",
+						"type": "Expression"
+					}
 				}
 			}
 		],
