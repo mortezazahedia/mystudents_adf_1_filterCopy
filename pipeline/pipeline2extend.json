@@ -3,8 +3,8 @@
 	"properties": {
 		"activities": [
 			{
-				"name": "ForEach1",
-				"type": "ForEach",
+				"name": "Filter1",
+				"type": "Filter",
 				"dependsOn": [],
 				"userProperties": [],
 				"typeProperties": {
@@ -12,71 +12,39 @@
 						"value": "@pipeline().parameters.outputfolders",
 						"type": "Expression"
 					},
+					"condition": {
+						"value": "@startswith(item(),'o')",
+						"type": "Expression"
+					}
+				}
+			},
+			{
+				"name": "ForEach1",
+				"type": "ForEach",
+				"dependsOn": [
+					{
+						"activity": "Filter1",
+						"dependencyConditions": [
+							"Skipped"
+						]
+					}
+				],
+				"userProperties": [],
+				"typeProperties": {
+					"items": {
+						"value": "@activity('Filter1').output.FilteredItemsCount",
+						"type": "Expression"
+					},
 					"isSequential": true,
 					"activities": [
 						{
-							"name": "Copy data1",
-							"type": "Copy",
+							"name": "Wait1",
+							"type": "Wait",
 							"dependsOn": [],
-							"policy": {
-								"timeout": "0.12:00:00",
-								"retry": 0,
-								"retryIntervalInSeconds": 30,
-								"secureOutput": false,
-								"secureInput": false
-							},
 							"userProperties": [],
 							"typeProperties": {
-								"source": {
-									"type": "DelimitedTextSource",
-									"storeSettings": {
-										"type": "AzureBlobStorageReadSettings",
-										"recursive": true,
-										"enablePartitionDiscovery": false
-									},
-									"formatSettings": {
-										"type": "DelimitedTextReadSettings"
-									}
-								},
-								"sink": {
-									"type": "DelimitedTextSink",
-									"storeSettings": {
-										"type": "AzureBlobStorageWriteSettings"
-									},
-									"formatSettings": {
-										"type": "DelimitedTextWriteSettings",
-										"quoteAllText": true,
-										"fileExtension": ".txt"
-									}
-								},
-								"enableStaging": false,
-								"translator": {
-									"type": "TabularTranslator",
-									"typeConversion": true,
-									"typeConversionSettings": {
-										"allowDataTruncation": true,
-										"treatBooleanAsNumber": false
-									}
-								}
-							},
-							"inputs": [
-								{
-									"referenceName": "DsInput",
-									"type": "DatasetReference"
-								}
-							],
-							"outputs": [
-								{
-									"referenceName": "DsOutput",
-									"type": "DatasetReference",
-									"parameters": {
-										"outputfoldername": {
-											"value": "@item()",
-											"type": "Expression"
-										}
-									}
-								}
-							]
+								"waitTimeInSeconds": 1
+							}
 						}
 					]
 				}
@@ -84,10 +52,10 @@
 		],
 		"parameters": {
 			"outputfolders": {
-				"type": "string",
+				"type": "array",
 				"defaultValue": [
-					"o3",
-					"o4"
+					"o5",
+					"o6"
 				]
 			}
 		},
