@@ -5,7 +5,14 @@
 			{
 				"name": "ForEach1",
 				"type": "ForEach",
-				"dependsOn": [],
+				"dependsOn": [
+					{
+						"activity": "Filter1",
+						"dependencyConditions": [
+							"Skipped"
+						]
+					}
+				],
 				"userProperties": [],
 				"typeProperties": {
 					"items": {
@@ -95,6 +102,22 @@
 							]
 						}
 					]
+				}
+			},
+			{
+				"name": "Filter1",
+				"type": "Filter",
+				"dependsOn": [],
+				"userProperties": [],
+				"typeProperties": {
+					"items": {
+						"value": "@pipeline().parameters.outputfolders",
+						"type": "Expression"
+					},
+					"condition": {
+						"value": "@startswith(item(),'o')",
+						"type": "Expression"
+					}
 				}
 			}
 		],
