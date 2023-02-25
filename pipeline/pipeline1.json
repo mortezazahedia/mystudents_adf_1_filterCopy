@@ -9,10 +9,21 @@
 				"userProperties": [],
 				"typeProperties": {
 					"items": {
-						"value": "@activity('Copy data1').output",
+						"value": "@pipeline().parameters.outputfolders",
 						"type": "Expression"
 					},
-					"isSequential": true
+					"isSequential": true,
+					"activities": [
+						{
+							"name": "Wait1",
+							"type": "Wait",
+							"dependsOn": [],
+							"userProperties": [],
+							"typeProperties": {
+								"waitTimeInSeconds": 1
+							}
+						}
+					]
 				}
 			}
 		],
