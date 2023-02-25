@@ -1,0 +1,9 @@
+{
+	"name": "adfmori0225",
+	"location": "westeurope",
+	"identity": {
+		"type": "SystemAssigned",
+		"principalId": "763871e9-c896-4c75-a132-3bba8102bc7a",
+		"tenantId": "cb722ba1-362f-40d1-bc2f-2d5574a27b0a"
+	}
+}
